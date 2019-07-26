@@ -7,18 +7,22 @@
 //
 
 import UIKit
+import CoreData
 
 class ChecklistViewController: UITableViewController {
     
     var itemArray : [Item] = []
-    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
+    var selectedCategory : Category? {
+        didSet {
+            loadItems()
+        }
+    }
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        loadItems()
-        
     }
     
     // number of rows in table view
@@ -45,11 +49,6 @@ class ChecklistViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         itemArray[indexPath.row].completed = !itemArray[indexPath.row].completed
-        if (tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark) {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .none
-        } else {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-        }
         saveItems()
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -59,7 +58,12 @@ class ChecklistViewController: UITableViewController {
         var textField: UITextField = UITextField()
         let alert = UIAlertController(title: "Add New Item", message: "", preferredStyle: .alert)
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
-            self.itemArray.append(Item(name: textField.text!))
+            let newItem = Item(context: self.context)
+            newItem.name = textField.text
+            newItem.completed = false
+            newItem.parentCategory = self.selectedCategory
+            
+            self.itemArray.append(newItem)
             self.saveItems()
         }
         alert.addTextField { (alertTextField) in
@@ -71,26 +75,55 @@ class ChecklistViewController: UITableViewController {
     }
     
     func saveItems() {
-        let encoder = PropertyListEncoder()
         do {
-            let data = try encoder.encode(itemArray)
-            try data.write(to: dataFilePath!)
+            try context.save()
         } catch {
-            print("Could not encode data correctly")
+            print("Error saving context")
         }
         self.tableView.reloadData()
     }
     
-    func loadItems() {
-        if let data = try? Data(contentsOf: dataFilePath!) {
-            let decoder = PropertyListDecoder()
-            do {
-                itemArray = try decoder.decode([Item].self, from: data)
-            } catch {
-                print("Problems loading")
-            }
-            
+    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest(), predicate: NSPredicate? = nil) {
+        let categoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory!.name!)
+        
+        if let additionalPredicate = predicate {
+            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, additionalPredicate])
+        } else {
+            request.predicate = categoryPredicate
         }
+        
+        do {
+            itemArray = try context.fetch(request)
+        } catch {
+            print("Issue trying to fetch data")
+            print("\(error)")
+        }
+        tableView.reloadData()
     }
 }
 
+//MARK: - Search bar Methods
+extension ChecklistViewController : UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let request : NSFetchRequest<Item> = Item.fetchRequest()
+      
+        
+        let predicate = NSPredicate(format: "name CONTAINS[cd] %@", searchBar.text!)
+        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        
+        loadItems(with: request, predicate: predicate)
+        
+        tableView.reloadData()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print("Hello")
+        if searchBar.text?.count == 0 {
+            loadItems()
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()
+            }
+        }
+    }
+}

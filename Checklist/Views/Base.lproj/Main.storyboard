@@ -17,9 +17,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" id="8An-Kb-iKD">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="A58-3u-L5S" id="G8z-NL-VsJ"/>
+                            </connections>
+                        </searchBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TodoItemCell" id="Gcl-Ib-brq">
-                                <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="72" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Gcl-Ib-brq" id="peX-da-VYk">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -43,7 +51,46 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a54-zJ-BVV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1944.9275362318842" y="137.94642857142856"/>
+            <point key="canvasLocation" x="3332" y="138"/>
+        </scene>
+        <!--Category-->
+        <scene sceneID="p2U-mP-XIL">
+            <objects>
+                <tableViewController id="9td-4s-yhN" customClass="CategoryViewController" customModule="Checklist" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="BE7-d9-xPc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="categoryCell" id="bEa-xJ-rUT">
+                                <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bEa-xJ-rUT" id="VIG-UT-fuB">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="9td-4s-yhN" id="gik-dN-HCN"/>
+                            <outlet property="delegate" destination="9td-4s-yhN" id="xXo-9Z-P1S"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Category" id="lgZ-2k-gIp">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Rco-aZ-GA9">
+                            <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <connections>
+                                <action selector="addButtonClicked:" destination="9td-4s-yhN" id="xK3-Ky-T7c"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <segue destination="A58-3u-L5S" kind="show" identifier="goToItems" id="fEa-GX-Ym3"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lVv-da-QrJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2232" y="138"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="3VW-1P-d6Z">
@@ -57,7 +104,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="A58-3u-L5S" kind="relationship" relationship="rootViewController" id="Cvh-pc-wZe"/>
+                        <segue destination="9td-4s-yhN" kind="relationship" relationship="rootViewController" id="mEf-PQ-qIr"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TsZ-ae-Kaf" userLabel="First Responder" sceneMemberID="firstResponder"/>
