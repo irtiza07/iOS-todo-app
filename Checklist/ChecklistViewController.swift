@@ -10,11 +10,17 @@ import UIKit
 
 class ChecklistViewController: UITableViewController {
     
-    var itemArray : [String] = ["Find Mike", "Buy Eggs", "Setup Ipad"]
+    var itemArray : [String] = []
+    let userDefaults = UserDefaults()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        if let items = userDefaults.array(forKey: "items") as? [String] {
+            itemArray = items
+        } else {
+            itemArray = []
+        }
     }
     
     // number of rows in table view
@@ -49,6 +55,7 @@ class ChecklistViewController: UITableViewController {
         let alert = UIAlertController(title: "Add New Item", message: "", preferredStyle: .alert)
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
             self.itemArray.append(textField.text!)
+            self.userDefaults.setValue(self.itemArray, forKeyPath: "items")
             self.tableView.reloadData()
         }
         alert.addTextField { (alertTextField) in
