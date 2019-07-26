@@ -32,7 +32,14 @@
                             <outlet property="delegate" destination="A58-3u-L5S" id="gfh-gt-pEI"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Checklist" id="0ZI-2b-u3Z"/>
+                    <navigationItem key="navigationItem" title="Checklist" id="0ZI-2b-u3Z">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="w77-id-wF7">
+                            <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <connections>
+                                <action selector="addButtonPressed:" destination="A58-3u-L5S" id="q4M-FL-8Lk"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a54-zJ-BVV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

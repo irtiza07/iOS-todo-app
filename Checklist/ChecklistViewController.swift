@@ -10,7 +10,7 @@ import UIKit
 
 class ChecklistViewController: UITableViewController {
     
-    let itemArray : [String] = ["Find Mike", "Buy Eggs", "Setup Ipad"]
+    var itemArray : [String] = ["Find Mike", "Buy Eggs", "Setup Ipad"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +44,19 @@ class ChecklistViewController: UITableViewController {
     }
     
     
-
-
+    @IBAction func addButtonPressed(_ sender: Any) {
+        var textField: UITextField = UITextField()
+        let alert = UIAlertController(title: "Add New Item", message: "", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
+            self.itemArray.append(textField.text!)
+            self.tableView.reloadData()
+        }
+        alert.addTextField { (alertTextField) in
+            alertTextField.placeholder = "Create new item"
+            textField = alertTextField
+        }
+        alert.addAction(action)
+        present(alert, animated: true)
+    }
 }
 
