@@ -11,16 +11,14 @@ import UIKit
 class ChecklistViewController: UITableViewController {
     
     var itemArray : [Item] = []
-    let userDefaults = UserDefaults.standard
+    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        if let items = userDefaults.array(forKey: "todos") as? [Item] {
-            itemArray = items
-        } else {
-            itemArray = []
-        }
+        loadItems()
+        
     }
     
     // number of rows in table view
@@ -52,7 +50,7 @@ class ChecklistViewController: UITableViewController {
         } else {
             tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
         }
-        tableView.reloadData()
+        saveItems()
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
@@ -62,8 +60,7 @@ class ChecklistViewController: UITableViewController {
         let alert = UIAlertController(title: "Add New Item", message: "", preferredStyle: .alert)
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
             self.itemArray.append(Item(name: textField.text!))
-            self.userDefaults.setValue(self.itemArray, forKeyPath: "todos")
-            self.tableView.reloadData()
+            self.saveItems()
         }
         alert.addTextField { (alertTextField) in
             alertTextField.placeholder = "Create new item"
@@ -71,6 +68,29 @@ class ChecklistViewController: UITableViewController {
         }
         alert.addAction(action)
         present(alert, animated: true)
+    }
+    
+    func saveItems() {
+        let encoder = PropertyListEncoder()
+        do {
+            let data = try encoder.encode(itemArray)
+            try data.write(to: dataFilePath!)
+        } catch {
+            print("Could not encode data correctly")
+        }
+        self.tableView.reloadData()
+    }
+    
+    func loadItems() {
+        if let data = try? Data(contentsOf: dataFilePath!) {
+            let decoder = PropertyListDecoder()
+            do {
+                itemArray = try decoder.decode([Item].self, from: data)
+            } catch {
+                print("Problems loading")
+            }
+            
+        }
     }
 }
 

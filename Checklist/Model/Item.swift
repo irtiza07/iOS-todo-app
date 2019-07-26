@@ -8,7 +8,8 @@
 
 import UIKit
 
-class Item : NSObject {
+//For a class to be encodable it cannot have any custom data type in it 
+class Item : Encodable, Decodable  {
     var name : String
     var completed: Bool = false
     
