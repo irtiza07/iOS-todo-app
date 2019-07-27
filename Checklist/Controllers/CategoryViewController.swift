@@ -8,6 +8,8 @@
 
 import UIKit
 import CoreData
+import SwipeCellKit
+import ChameleonFramework
 
 class CategoryViewController: UITableViewController {
     
@@ -17,6 +19,14 @@ class CategoryViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.loadItems()
+        tableView.rowHeight = 80.0
+        tableView.separatorStyle = .none
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.barTintColor = UIColor.flatTealDark
+        navigationController?.navigationBar.tintColor = UIColor(contrastingBlackOrWhiteColorOn: UIColor.flatTealDark, isFlat: true)
+        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(contrastingBlackOrWhiteColorOn: UIColor.flatTealDark, isFlat: true)]
     }
     
     
@@ -29,12 +39,16 @@ class CategoryViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // create a new cell if needed or reuse an old one
-        let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as! SwipeTableViewCell
+        cell.delegate = self
         
         // set the text from the data model
         cell.textLabel?.text = self.categoryList[indexPath.row].name
+        cell.backgroundColor = UIColor(randomFlatColorOf: .light)
+        cell.textLabel?.textColor = ContrastColorOf(cell.backgroundColor!, returnFlat: true)
         return cell
     }
+    
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "goToItems", sender: self)
@@ -84,7 +98,27 @@ class CategoryViewController: UITableViewController {
             print("Issue trying to fetch data")
             print("\(error)")
         }
-        tableView.reloadData()
     }
 
+}
+
+//MARK: - Cell Swiping Stuff!!
+extension CategoryViewController: SwipeTableViewCellDelegate {
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        guard orientation == .right else { return nil }
+        
+        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
+            // handle action by updating model with deletion
+            self.context.delete(self.categoryList[indexPath.row])
+            self.saveItems()
+            self.categoryList.remove(at: indexPath.row)
+            self.tableView.reloadData()
+        }
+        
+        // customize the action appearance
+        deleteAction.image = UIImage(named: "trash_icon")
+        
+        return [deleteAction]
+    }
 }

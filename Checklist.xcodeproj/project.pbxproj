@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		11C9D2B3E6D695A79B9EA5AE /* Pods_Checklist.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11CAD78B709A89856B8A482C /* Pods_Checklist.framework */; };
 		DC8A86E922EAB6CD00F88CB7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8A86E822EAB6CD00F88CB7 /* AppDelegate.swift */; };
 		DC8A86EB22EAB6CD00F88CB7 /* ChecklistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8A86EA22EAB6CD00F88CB7 /* ChecklistViewController.swift */; };
 		DC8A86EE22EAB6CD00F88CB7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC8A86EC22EAB6CD00F88CB7 /* Main.storyboard */; };
@@ -17,6 +18,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		11CAD78B709A89856B8A482C /* Pods_Checklist.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Checklist.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B90AC47EFA2E19621CC23B0D /* Pods-Checklist.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Checklist.debug.xcconfig"; path = "Target Support Files/Pods-Checklist/Pods-Checklist.debug.xcconfig"; sourceTree = "<group>"; };
+		C87ECDA6C54A1B138B7F487F /* Pods-Checklist.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Checklist.release.xcconfig"; path = "Target Support Files/Pods-Checklist/Pods-Checklist.release.xcconfig"; sourceTree = "<group>"; };
 		DC8A86E522EAB6CD00F88CB7 /* Checklist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Checklist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC8A86E822EAB6CD00F88CB7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DC8A86EA22EAB6CD00F88CB7 /* ChecklistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistViewController.swift; sourceTree = "<group>"; };
@@ -33,17 +37,38 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11C9D2B3E6D695A79B9EA5AE /* Pods_Checklist.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		69C34C48167D03B1BC5972E2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B90AC47EFA2E19621CC23B0D /* Pods-Checklist.debug.xcconfig */,
+				C87ECDA6C54A1B138B7F487F /* Pods-Checklist.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		8124F750E0A76FEA9F541861 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				11CAD78B709A89856B8A482C /* Pods_Checklist.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		DC8A86DC22EAB6CD00F88CB7 = {
 			isa = PBXGroup;
 			children = (
 				DC8A86E722EAB6CD00F88CB7 /* Checklist */,
 				DC8A86E622EAB6CD00F88CB7 /* Products */,
+				69C34C48167D03B1BC5972E2 /* Pods */,
+				8124F750E0A76FEA9F541861 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -109,9 +134,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DC8A86F722EAB6CE00F88CB7 /* Build configuration list for PBXNativeTarget "Checklist" */;
 			buildPhases = (
+				A0A104A47F763AE18AC297DA /* [CP] Check Pods Manifest.lock */,
 				DC8A86E122EAB6CD00F88CB7 /* Sources */,
 				DC8A86E222EAB6CD00F88CB7 /* Frameworks */,
 				DC8A86E322EAB6CD00F88CB7 /* Resources */,
+				D9270192F280128AAF6D5ACB /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -167,6 +194,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A0A104A47F763AE18AC297DA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Checklist-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D9270192F280128AAF6D5ACB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Checklist/Pods-Checklist-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Checklist/Pods-Checklist-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Checklist/Pods-Checklist-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		DC8A86E122EAB6CD00F88CB7 /* Sources */ = {
@@ -320,6 +389,7 @@
 		};
 		DC8A86F822EAB6CE00F88CB7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B90AC47EFA2E19621CC23B0D /* Pods-Checklist.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -338,6 +408,7 @@
 		};
 		DC8A86F922EAB6CE00F88CB7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C87ECDA6C54A1B138B7F487F /* Pods-Checklist.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
